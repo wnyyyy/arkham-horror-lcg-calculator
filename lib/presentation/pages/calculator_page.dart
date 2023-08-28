@@ -1,6 +1,7 @@
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_icons.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_images.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_ui.dart';
+import 'package:arkham_horror_lcg_calculator/presentation/components/number_selector.dart';
 import 'package:flutter/material.dart';
 
 class CalculatorPage extends StatefulWidget {
@@ -31,37 +32,32 @@ class _CalculatorPageState extends State<CalculatorPage> {
         ),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
               child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
+              Container(
+                height: 96,
                 child: Text(
                   _totalProbability.toString() + "%",
                   style: TextStyle(fontSize: 96.0),
                 ),
               ),
-              Expanded(child: AppUI.divider),
-              Expanded(child: SizedBox())
+              AppUI.divider,
+              NumberSelector()
             ],
           )),
           Expanded(
               child: Stack(children: [
-            Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AppImages.tokenBackground, fit: BoxFit.fill)),
-            ),
-            Column(children: [
-              SizedBox(
-                height: 3,
+            Transform.translate(
+              offset: Offset(0, 3.5),
+              child: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AppImages.tokenBackground, fit: BoxFit.fill)),
               ),
-              Expanded(child: AppUI.divider),
-            ])
+            ),
+            AppUI.divider
           ]))
         ],
       ),

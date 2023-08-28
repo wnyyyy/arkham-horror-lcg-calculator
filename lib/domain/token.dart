@@ -1,4 +1,4 @@
-import 'package:arkham_horror_lcg_calculator/domain/token_type.dart';
+import 'enums.dart';
 
 class Token {
   final TokenType type;

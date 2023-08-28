@@ -4,8 +4,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class AppUI {
   static const _colorFilter =
-      ColorFilter.mode(AppColors.secondaryColor, BlendMode.srcIn);
+      ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn);
 
-  static final divider =
-      SvgPicture.asset('assets/ui/divider.svg', colorFilter: _colorFilter);
+  static final divider = Container(
+      width: double.infinity,
+      child: Transform.scale(
+        scaleY: 0.5,
+        child: (SvgPicture.asset(
+          'assets/ui/divider.svg',
+          colorFilter: _colorFilter,
+          fit: BoxFit.fill,
+        )),
+      ));
 }

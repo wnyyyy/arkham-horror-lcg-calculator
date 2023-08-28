@@ -2,6 +2,7 @@ name: arkham_horror_lcg_calculator
 description: Chaos bag probability calculator for Arkham Horror LCG.
 publish_to: 'none'
 version: 1.0.0+1
+isar_version: &isar_version 3.1.0
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
@@ -10,11 +11,26 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  isar: *isar_version
+  isar_flutter_libs: *isar_version
+  flutter_svg: ^2.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  isar_generator: *isar_version
+  build_runner: any
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Birmingham
+      fonts:
+        - asset: assets/fonts/Birmingham.ttf
+        - asset: assets/fonts/BirminghamBold.ttf
+          weight: 700
+  assets:
+    - assets/icons/
+    - assets/ui/
+    - assets/images/

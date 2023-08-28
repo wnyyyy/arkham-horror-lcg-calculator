@@ -1,6 +1,6 @@
-import 'package:arkham_horror_lcg_calculator/presentation/components/app_icons.dart';
-import 'package:arkham_horror_lcg_calculator/presentation/components/app_images.dart';
-import 'package:arkham_horror_lcg_calculator/presentation/components/app_ui.dart';
+import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_icons.dart';
+import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_images.dart';
+import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class CalculatorPage extends StatefulWidget {
@@ -45,6 +45,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                   style: TextStyle(fontSize: 96.0),
                 ),
               ),
+              Expanded(child: AppUI.divider),
               Expanded(child: SizedBox())
             ],
           )),

@@ -17,10 +17,9 @@ class _NumberSelectorState extends State<NumberSelector> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 128,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.blueAccent),
-      ),
+          border: Border.all(color: Colors.cyan, width: 2.0),
+          borderRadius: BorderRadius.circular(8.0)),
       alignment: Alignment.center,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -44,8 +43,6 @@ class _NumberSelectorState extends State<NumberSelector> {
                   child: Container(
                     padding: EdgeInsets.only(bottom: 48),
                     alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent)),
                     child: Text(
                       '$selectedNumber',
                       style: TextStyle(fontSize: 96.0),
@@ -60,10 +57,11 @@ class _NumberSelectorState extends State<NumberSelector> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ArrowButton(
                         direction: ArrowDirection.up,
+                        size: 64.0,
                         onPressed: () => {
                               setState(() {
                                 selectedNumber++;
@@ -71,6 +69,7 @@ class _NumberSelectorState extends State<NumberSelector> {
                             }),
                     ArrowButton(
                         direction: ArrowDirection.up,
+                        size: 64.0,
                         onPressed: () => {
                               setState(() {
                                 selectedNumber += 3;
@@ -80,10 +79,11 @@ class _NumberSelectorState extends State<NumberSelector> {
                   ],
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ArrowButton(
                         direction: ArrowDirection.down,
+                        size: 64.0,
                         onPressed: () => {
                               setState(() {
                                 selectedNumber =
@@ -92,6 +92,7 @@ class _NumberSelectorState extends State<NumberSelector> {
                             }),
                     ArrowButton(
                         direction: ArrowDirection.down,
+                        size: 64.0,
                         onPressed: () => {
                               setState(() {
                                 selectedNumber =

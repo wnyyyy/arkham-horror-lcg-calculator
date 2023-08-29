@@ -7,17 +7,20 @@ class ArrowButton extends StatelessWidget {
   final ArrowDirection direction;
   final VoidCallback onPressed;
   final bool doubleArrow;
+  final double? size;
 
   ArrowButton({
     required this.direction,
     required this.onPressed,
     this.doubleArrow = false,
+    this.size,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      iconSize: size,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       onPressed: onPressed,

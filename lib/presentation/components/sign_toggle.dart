@@ -13,38 +13,32 @@ class SignToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildToggle('+', isPositive, Colors.lightGreen),
-        SizedBox(),
-        _buildToggle('-', !isPositive, Colors.red),
-      ],
-    );
-  }
-
-  Widget _buildToggle(String label, bool isSelected, Color color) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        //splashColor: Colors.transparent,
-        //highlightColor: Colors.transparent,
-        onTap: () => onChanged(label == '+'),
-        child: Opacity(
-          opacity: isSelected ? 1.0 : 0.25,
-          child: Container(
-            height: 56,
-            width: 56,
-            alignment: Alignment.topCenter,
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 48.0,
-                color: isSelected ? color : AppColors.secondaryColor,
-              ),
-            ),
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onTap: () => onChanged(!isPositive),
+        child: Container(
+          padding: EdgeInsets.only(bottom: 32.0, top: 16.0),
+          alignment: Alignment.center,
+          child: Column(
+            children: [
+              _signText('+', isPositive, Colors.lightGreen),
+              _signText('-', !isPositive, Colors.red),
+            ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _signText(String label, bool isSelected, Color color) {
+    return Text(
+      label,
+      style: TextStyle(
+        fontSize: 72.0,
+        color: isSelected ? color : AppColors.secondaryColor.withOpacity(0.25),
       ),
     );
   }

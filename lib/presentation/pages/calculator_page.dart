@@ -12,7 +12,7 @@ class CalculatorPage extends StatefulWidget {
 }
 
 class _CalculatorPageState extends State<CalculatorPage> {
-  int _totalProbability = 0;
+  int totalProbability = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -34,19 +34,35 @@ class _CalculatorPageState extends State<CalculatorPage> {
       body: Column(
         children: [
           Expanded(
-              child: Column(
-            children: [
-              Container(
-                height: 96,
-                child: Text(
-                  _totalProbability.toString() + "%",
-                  style: TextStyle(fontSize: 96.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.cyan, width: 2.0)),
+                  height: 128,
+                  child: Text(
+                    totalProbability.toString() + "%",
+                    style: TextStyle(fontSize: 128.0),
+                  ),
                 ),
-              ),
-              AppUI.divider,
-              NumberSelector()
-            ],
-          )),
+                AppUI.divider,
+                NumberSelector(),
+                Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.cyan, width: 2.0)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                            onPressed: () => {}, icon: AppIcons.plusCircled),
+                        IconButton(
+                            onPressed: () => {}, icon: AppIcons.signCircled),
+                      ],
+                    )),
+              ],
+            ),
+          ),
           Expanded(
               child: Stack(children: [
             Transform.translate(

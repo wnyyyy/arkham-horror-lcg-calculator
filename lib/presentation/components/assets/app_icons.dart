@@ -8,8 +8,16 @@ class AppIcons {
 
   static final plus =
       SvgPicture.asset('assets/icons/plus.svg', colorFilter: _colorFilter);
+  static final plusCircled = SvgPicture.asset('assets/icons/plus_circled.svg',
+      colorFilter: _colorFilter);
+  static final plusCrossed = SvgPicture.asset('assets/icons/plus_crossed.svg',
+      colorFilter: _colorFilter);
   static final sign =
       SvgPicture.asset('assets/icons/sign.svg', colorFilter: _colorFilter);
+  static final signCircled = SvgPicture.asset('assets/icons/sign_circled.svg',
+      colorFilter: _colorFilter);
+  static final signCrossed = SvgPicture.asset('assets/icons/sign_crossed.svg',
+      colorFilter: _colorFilter);
   static final chaosBag =
       SvgPicture.asset('assets/icons/chaos_bag.svg', colorFilter: _colorFilter);
   static final arrow =

@@ -1,5 +1,3 @@
-import 'enums.dart';
-
 class Token {
   final TokenType type;
   final dynamic value;
@@ -7,3 +5,5 @@ class Token {
   Token.number(int this.value) : type = TokenType.number;
   Token.sign(String this.value) : type = TokenType.sign;
 }
+
+enum TokenType { number, sign }

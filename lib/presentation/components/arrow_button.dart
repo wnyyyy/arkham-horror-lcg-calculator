@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:arkham_horror_lcg_calculator/domain/enums.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -46,3 +45,5 @@ class ArrowButton extends StatelessWidget {
     }
   }
 }
+
+enum ArrowDirection { up, down, left, right }

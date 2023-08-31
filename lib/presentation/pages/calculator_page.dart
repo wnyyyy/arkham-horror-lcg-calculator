@@ -1,7 +1,9 @@
+import 'package:arkham_horror_lcg_calculator/domain/chaos_bag.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_icons.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_images.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_ui.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/number_selector.dart';
+import 'package:arkham_horror_lcg_calculator/presentation/components/token_grid.dart';
 import 'package:flutter/material.dart';
 
 class CalculatorPage extends StatefulWidget {
@@ -38,8 +40,6 @@ class _CalculatorPageState extends State<CalculatorPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.cyan, width: 2.0)),
                   height: 128,
                   child: Text(
                     totalProbability.toString() + "%",
@@ -48,18 +48,6 @@ class _CalculatorPageState extends State<CalculatorPage> {
                 ),
                 AppUI.divider,
                 NumberSelector(),
-                Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.cyan, width: 2.0)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                            onPressed: () => {}, icon: AppIcons.plusCircled),
-                        IconButton(
-                            onPressed: () => {}, icon: AppIcons.signCircled),
-                      ],
-                    )),
               ],
             ),
           ),
@@ -73,7 +61,14 @@ class _CalculatorPageState extends State<CalculatorPage> {
                         image: AppImages.tokenBackground, fit: BoxFit.fill)),
               ),
             ),
-            AppUI.divider
+            Column(
+              children: [
+                AppUI.divider,
+                Expanded(
+                  child: TokenGrid(tokens: ChaosBag.unique),
+                )
+              ],
+            ),
           ]))
         ],
       ),

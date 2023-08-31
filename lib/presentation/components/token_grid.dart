@@ -9,46 +9,69 @@ class TokenGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: _rowList(),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        double tokenSize = constraints.maxWidth * 0.175;
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: _rowList(tokenSize),
+        );
+      },
     );
   }
 
-  List<Widget> _rowList() {
+  List<Widget> _rowList(double tokenSize) {
     int tokenCount = tokens.length;
-    if (tokenCount >= 0) {
+    if (tokenCount <= 0) {
       return [];
     }
-    int numRows = (tokenCount / 5).ceil();
+    List<Widget> numberRows = _buildRowGroup(
+        tokens.where((token) => token is NumberToken).toList(), tokenSize);
+    List<String> specialNames = ['elderSign', 'autoFail'];
+    List<Widget> signRows = _buildRowGroup(
+        tokens
+            .where((token) =>
+                token is SignToken && !specialNames.contains(token.name))
+            .toList(),
+        tokenSize);
+    List<Widget> specialRow = _buildRowGroup(
+        tokens.where((token) => specialNames.contains(token.name)).toList(),
+        tokenSize);
 
+    return [...numberRows, ...signRows, ...specialRow];
+  }
+
+  List<Widget> _buildRowGroup(List<Token> tokens, double tokenSize) {
+    if (tokens.length <= 0) {
+      return [];
+    }
     List<Widget> rows = [];
-    List<Token> lstAux = [...tokens];
+    int tokenCount = tokens.length;
+    int numRows = (tokenCount / 4).ceil();
 
-    for (int i = 0; i < numRows; i++) {
+    while (numRows > 0) {
       int rowTokenCount = (tokenCount / numRows).ceil();
-      List<Token> rowTokens = lstAux.sublist(0, rowTokenCount);
-      lstAux = lstAux.sublist(rowTokenCount);
-      rows.add(_buildTokenRow(rowTokens));
       tokenCount -= rowTokenCount;
+      numRows--;
+      rows.add(_buildTokenRow(tokens.sublist(0, rowTokenCount), tokenSize));
+      tokens = tokens.sublist(rowTokenCount);
     }
 
     return rows;
   }
 
-  Widget _buildTokenRow(List<Token> row) {
-    double tokenSize = row.length == 5 ? 40.0 : 48.0;
-
+  Widget _buildTokenRow(List<Token> row, double tokenSize) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: row
           .map(
             (token) => Image(
-              image: AppImages.token(token.value.toString()),
+              image: AppImages.token(token.name),
               width: tokenSize,
               height: tokenSize,
               errorBuilder: (BuildContext context, Object exception,
                   StackTrace? stackTrace) {
-                return Icon(Icons.error, color: Colors.red, size: tokenSize);
+                return Container();
               },
             ),
           )

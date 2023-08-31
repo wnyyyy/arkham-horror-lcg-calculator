@@ -9,7 +9,5 @@ class ChaosBag {
       .where((token) => token is NumberToken)
       .cast<NumberToken>()
       .toList();
-  static int get value =>
-      numbers.fold(0, (total, number) => total + number.value);
   static List<Token> get unique => tokens.toSet().toList();
 }

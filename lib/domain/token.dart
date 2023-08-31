@@ -29,7 +29,12 @@ class NumberToken extends Token {
 }
 
 class SignToken extends Token {
-  SignToken(SignType type) : super(type.name);
+  final SignType type;
+  final bool special;
+
+  SignToken(this.type)
+      : special = specials.contains(type),
+        super(type.name);
 
   static SignToken fromJson(Map<String, dynamic> json) {
     return SignToken(SignType.values.byName(json['name']));
@@ -47,3 +52,5 @@ enum SignType {
   autoFail,
   elderSign,
 }
+
+List<SignType> specials = [SignType.autoFail, SignType.elderSign];

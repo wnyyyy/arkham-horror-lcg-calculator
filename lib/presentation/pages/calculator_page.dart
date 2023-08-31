@@ -1,4 +1,5 @@
 import 'package:arkham_horror_lcg_calculator/domain/chaos_bag.dart';
+import 'package:arkham_horror_lcg_calculator/domain/token.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_icons.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_images.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_ui.dart';
@@ -14,7 +15,17 @@ class CalculatorPage extends StatefulWidget {
 }
 
 class _CalculatorPageState extends State<CalculatorPage> {
-  int totalProbability = 0;
+  late double totalProbability;
+  int skill = 2;
+  bool signsAllowed = false;
+  bool nonNegativeAllowed = true;
+  Set<Token> winningTokenSet = Set();
+
+  @override
+  void initState() {
+    super.initState();
+    _updateProbability();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +53,18 @@ class _CalculatorPageState extends State<CalculatorPage> {
                 Container(
                   height: 128,
                   child: Text(
-                    totalProbability.toString() + "%",
+                    totalProbability.round().toString() + '%',
                     style: TextStyle(fontSize: 128.0),
                   ),
                 ),
                 AppUI.divider,
-                NumberSelector(),
+                NumberSelector(
+                  onNumberChanged: (num) {
+                    skill = num;
+                    _updateWinningTokenSetFromSkill();
+                  },
+                  startingNumber: skill,
+                ),
               ],
             ),
           ),
@@ -65,7 +82,19 @@ class _CalculatorPageState extends State<CalculatorPage> {
               children: [
                 AppUI.divider,
                 Expanded(
-                  child: TokenGrid(tokens: ChaosBag.unique),
+                  child: TokenGrid(
+                      tokens: ChaosBag.unique,
+                      winningTokens: winningTokenSet,
+                      onTapToken: (token) => {
+                            setState(() {
+                              if (winningTokenSet.contains(token)) {
+                                winningTokenSet.remove(token);
+                              } else {
+                                winningTokenSet.add(token);
+                              }
+                              _updateProbability();
+                            })
+                          }),
                 )
               ],
             ),
@@ -73,5 +102,36 @@ class _CalculatorPageState extends State<CalculatorPage> {
         ],
       ),
     );
+  }
+
+  void _updateProbability() {
+    List<Token> winningTokens = ChaosBag.tokens
+        .where((token) => winningTokenSet.contains(token))
+        .toList();
+    int tokenCount = ChaosBag.tokens.length;
+    setState(() {
+      this.totalProbability = winningTokens.length / tokenCount * 100;
+      this.winningTokenSet = winningTokens.toSet();
+    });
+  }
+
+  void _updateWinningTokenSetFromSkill() {
+    List<Token> winningTokens = [];
+    List<NumberToken> winningNumberTokens =
+        ChaosBag.numbers.where((token) => token.value + skill >= 0).toList();
+    if (nonNegativeAllowed) {
+      winningTokens.addAll(ChaosBag.signs
+          .where((token) => token.name == SignType.elderSign.name));
+    } else {
+      winningNumberTokens.removeWhere((token) => token.value >= 0);
+    }
+    winningTokens.addAll(winningNumberTokens);
+    if (signsAllowed) {
+      winningTokens
+          .addAll(ChaosBag.signs.where((token) => !token.special).toList());
+    }
+    winningTokenSet = winningTokens.toSet();
+
+    _updateProbability();
   }
 }

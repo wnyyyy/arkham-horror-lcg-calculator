@@ -1,11 +1,17 @@
 import 'package:arkham_horror_lcg_calculator/domain/token.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_images.dart';
+import 'package:arkham_horror_lcg_calculator/presentation/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class TokenGrid extends StatelessWidget {
   final List<Token> tokens;
+  final Function(Token) onTapToken;
+  final Set<Token> winningTokens;
 
-  TokenGrid({required this.tokens});
+  TokenGrid(
+      {required this.tokens,
+      required this.onTapToken,
+      this.winningTokens = const {}});
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +33,11 @@ class TokenGrid extends StatelessWidget {
     }
     List<Widget> numberRows = _buildRowGroup(
         tokens.where((token) => token is NumberToken).toList(), tokenSize);
-    List<String> specialNames = ['elderSign', 'autoFail'];
     List<Widget> signRows = _buildRowGroup(
-        tokens
-            .where((token) =>
-                token is SignToken && !specialNames.contains(token.name))
-            .toList(),
+        tokens.where((token) => token is SignToken && !token.special).toList(),
         tokenSize);
     List<Widget> specialRow = _buildRowGroup(
-        tokens.where((token) => specialNames.contains(token.name)).toList(),
+        tokens.where((token) => token is SignToken && token.special).toList(),
         tokenSize);
 
     return [...numberRows, ...signRows, ...specialRow];
@@ -65,17 +67,40 @@ class TokenGrid extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: row
           .map(
-            (token) => Image(
-              image: AppImages.token(token.name),
-              width: tokenSize,
-              height: tokenSize,
-              errorBuilder: (BuildContext context, Object exception,
-                  StackTrace? stackTrace) {
-                return Container();
-              },
-            ),
+            (token) => _buildToken(token, tokenSize,
+                isWinningToken: winningTokens.contains(token)),
           )
           .toList(),
+    );
+  }
+
+  Widget _buildToken(Token token, double tokenSize,
+      {bool isWinningToken = false}) {
+    return GestureDetector(
+      onTap: () => onTapToken(token),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 100),
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: isWinningToken
+                ? [
+                    BoxShadow(
+                      color: AppColors.secondaryColor,
+                      spreadRadius: 4,
+                      blurRadius: 8,
+                    ),
+                  ]
+                : []),
+        child: Image(
+          image: AppImages.token(token.name),
+          width: tokenSize,
+          height: tokenSize,
+          errorBuilder:
+              (BuildContext context, Object exception, StackTrace? stackTrace) {
+            return Container();
+          },
+        ),
+      ),
     );
   }
 }

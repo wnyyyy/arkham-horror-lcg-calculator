@@ -3,6 +3,17 @@ abstract class Token {
   Token(this.name);
 
   Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! Token) {
+      return false;
+    }
+    return this.name == other.name;
+  }
+
+  @override
+  int get hashCode => name.hashCode;
 }
 
 class NumberToken extends Token {
@@ -10,7 +21,7 @@ class NumberToken extends Token {
   NumberToken(this.value) : super(value.toString());
 
   static NumberToken fromJson(Map<String, dynamic> json) {
-    return NumberToken(json['value']);
+    return NumberToken(int.parse(json['name']));
   }
 
   @override
@@ -21,7 +32,7 @@ class SignToken extends Token {
   SignToken(SignType type) : super(type.name);
 
   static SignToken fromJson(Map<String, dynamic> json) {
-    return SignToken(SignType.values.byName(json['value']));
+    return SignToken(SignType.values.byName(json['name']));
   }
 
   @override

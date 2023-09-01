@@ -5,6 +5,7 @@ import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_ui.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/number_selector.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/token_grid.dart';
+import 'package:arkham_horror_lcg_calculator/presentation/pages/bag_selector_page.dart';
 import 'package:flutter/material.dart';
 
 class CalculatorPage extends StatefulWidget {
@@ -32,35 +33,39 @@ class _CalculatorPageState extends State<CalculatorPage> {
     return Scaffold(
       appBar: AppBar(
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                IconButton(
-                    onPressed: () => {
-                          setState(() {
-                            nonNegativeAllowed = !nonNegativeAllowed;
-                            _updateNonNegativeTokens();
-                            _updateProbability();
-                          })
-                        },
-                    icon: nonNegativeAllowed
-                        ? AppIcons.plus
-                        : AppIcons.plusCrossed),
-                IconButton(
-                    onPressed: () => {
-                          setState(() {
-                            signsAllowed = !signsAllowed;
-                            _updateSignTokens();
-                            _updateProbability();
-                          })
-                        },
-                    icon: signsAllowed ? AppIcons.sign : AppIcons.signCrossed)
-              ],
-            ),
-            IconButton(onPressed: () => {}, icon: AppIcons.chaosBag)
+            IconButton(
+                onPressed: () => {
+                      setState(() {
+                        nonNegativeAllowed = !nonNegativeAllowed;
+                        _updateNonNegativeTokens();
+                        _updateProbability();
+                      })
+                    },
+                icon:
+                    nonNegativeAllowed ? AppIcons.plus : AppIcons.plusCrossed),
+            IconButton(
+                onPressed: () => {
+                      setState(() {
+                        signsAllowed = !signsAllowed;
+                        _updateSignTokens();
+                        _updateProbability();
+                      })
+                    },
+                icon: signsAllowed ? AppIcons.sign : AppIcons.signCrossed)
           ],
         ),
+        actions: [
+          IconButton(
+              onPressed: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BagSelectorPage()),
+                    )
+                  },
+              icon: AppIcons.chaosBag)
+        ],
       ),
       body: Column(
         children: [

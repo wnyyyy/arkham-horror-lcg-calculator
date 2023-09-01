@@ -1,10 +1,12 @@
 import 'package:arkham_horror_lcg_calculator/domain/chaos_bag.dart';
+import 'package:arkham_horror_lcg_calculator/domain/chaos_bag_repository.dart';
 import 'package:arkham_horror_lcg_calculator/domain/token.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_icons.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_ui.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/bag_selector.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/themes/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BagSelectorPage extends StatefulWidget {
   const BagSelectorPage({super.key});
@@ -16,6 +18,13 @@ class BagSelectorPage extends StatefulWidget {
 class _BagSelectorPageState extends State<BagSelectorPage> {
   late Map<Token, int> tokenCounts;
   late int currCount;
+  late ChaosBagRepository repository;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    repository = Provider.of<ChaosBagRepository>(context);
+  }
 
   @override
   void initState() {
@@ -108,6 +117,7 @@ class _BagSelectorPageState extends State<BagSelectorPage> {
         tokens.add(token);
       }
     }
+    repository.save(tokens);
     ChaosBag.tokens = tokens;
   }
 }

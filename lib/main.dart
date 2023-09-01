@@ -47,11 +47,17 @@ class ArkhamHorrorCalculator extends StatelessWidget {
     return MaterialApp(
       title: 'Arkham Horror Calculator',
       theme: ThemeData(
-          scaffoldBackgroundColor: AppColors.scaffoldColor,
-          buttonTheme: ButtonThemeData(buttonColor: AppColors.secondaryColor),
-          appBarTheme: AppBarTheme(color: AppColors.primaryColor),
-          textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: AppColors.secondaryColor, fontFamily: 'Birmingham')),
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        scaffoldBackgroundColor: AppColors.scaffoldColor,
+        buttonTheme: ButtonThemeData(buttonColor: AppColors.secondaryColor),
+        appBarTheme: AppBarTheme(color: AppColors.primaryColor),
+        textTheme: Theme.of(context).textTheme.apply(
+            bodyColor: AppColors.secondaryColor, fontFamily: 'Birmingham'),
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: MaterialStateProperty.all<Color>(AppColors.primaryColor),
+        ),
+      ),
       home: FutureBuilder<List<Token>>(
         future: repository.get(),
         builder: (context, snapshot) {

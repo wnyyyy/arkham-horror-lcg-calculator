@@ -6,9 +6,13 @@ import 'package:flutter/material.dart';
 
 class BagSelectorRow extends StatefulWidget {
   final Token token;
+  final int initialCount;
   final Function(int) onCountChanged;
   const BagSelectorRow(
-      {Key? key, required this.token, required this.onCountChanged})
+      {Key? key,
+      required this.token,
+      required this.onCountChanged,
+      required this.initialCount})
       : super(key: key);
 
   @override
@@ -16,6 +20,14 @@ class BagSelectorRow extends StatefulWidget {
 }
 
 class _BagSelectorRowState extends State<BagSelectorRow> {
+  late int count;
+
+  @override
+  void initState() {
+    super.initState();
+    count = widget.initialCount;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,7 +45,12 @@ class _BagSelectorRowState extends State<BagSelectorRow> {
                     child: ArrowButton(
                         direction: ArrowDirection.left,
                         size: 64.0,
-                        onPressed: () => {setState(() {})}),
+                        onPressed: () => {
+                              setState(() {
+                                count--;
+                                widget.onCountChanged(count);
+                              })
+                            }),
                   ),
                 ),
                 Expanded(
@@ -60,7 +77,7 @@ class _BagSelectorRowState extends State<BagSelectorRow> {
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 42),
                     child: Text(
-                      '5',
+                      count.toString(),
                       style: TextStyle(fontSize: 76),
                     ),
                   ),
@@ -70,7 +87,12 @@ class _BagSelectorRowState extends State<BagSelectorRow> {
                     child: ArrowButton(
                         direction: ArrowDirection.right,
                         size: 64.0,
-                        onPressed: () => {setState(() {})}),
+                        onPressed: () => {
+                              setState(() {
+                                count++;
+                                widget.onCountChanged(count);
+                              })
+                            }),
                   ),
                 ),
               ],

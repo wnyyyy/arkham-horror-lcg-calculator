@@ -11,22 +11,44 @@ class BagSelector extends StatefulWidget {
 }
 
 class _BagSelectorState extends State<BagSelector> {
-  List<Token> allowedList = ChaosBag.allowedTokens.toList();
+  late Map<Token, int> tokenCounts;
+
+  @override
+  void initState() {
+    super.initState();
+    tokenCounts = {};
+    for (Token token in ChaosBag.allowedTokens) {
+      tokenCounts[token] = ChaosBag.tokens.where((t) => t == token).length;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Scrollbar(
         child: ListView.builder(
-          itemCount: allowedList.length,
+          itemCount: tokenCounts.length,
           itemBuilder: (context, index) {
-            return _buildRow(allowedList.elementAt(index));
+            Token token = tokenCounts.keys.elementAt(index);
+            return _buildRow(
+              token,
+              tokenCounts[token]!,
+            );
           },
         ),
       ),
     );
   }
 
-  Widget _buildRow(Token token) {
-    return BagSelectorRow(token: token, onCountChanged: (value) => {});
+  Widget _buildRow(Token token, int count) {
+    return BagSelectorRow(
+      token: token,
+      initialCount: count,
+      onCountChanged: (value) {
+        setState(() {
+          tokenCounts[token] = value;
+        });
+      },
+    );
   }
 }

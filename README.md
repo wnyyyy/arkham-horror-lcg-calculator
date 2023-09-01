@@ -1,4 +1,4 @@
-# Arkham Horror LCG Probability Calculator (Flutter App)
+# Arkham Horror LCG Probability Calculator (Flutter App/Android only)
 Arkham Horror LCG (Living Card Game) is a cooperative card game set in the Lovecraftian universe, where players team up to solve mysteries and fend off eldritch horrors. This app aids players in understanding the odds related to the game's unique dice-rolling mechanic, the Chaos Bag. Players draw tokens from the bag to determine outcomes, where each token has its own implications and the distribution of these tokens varies based on the scenario and difficulty level.
 
 ## Features

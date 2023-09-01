@@ -1,6 +1,7 @@
 abstract class Token {
   final String name;
   Token(this.name);
+  bool get nonNegative;
 
   Map<String, dynamic> toJson();
 
@@ -25,6 +26,9 @@ class NumberToken extends Token {
   }
 
   @override
+  bool get nonNegative => this.value >= 0;
+
+  @override
   Map<String, dynamic> toJson() => {'type': 'number', 'name': this.name};
 }
 
@@ -39,6 +43,9 @@ class SignToken extends Token {
   static SignToken fromJson(Map<String, dynamic> json) {
     return SignToken(SignType.values.byName(json['name']));
   }
+
+  @override
+  bool get nonNegative => this.type == SignType.elderSign;
 
   @override
   Map<String, dynamic> toJson() => {'type': 'sign', 'name': this.name};

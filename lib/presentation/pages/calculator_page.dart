@@ -24,7 +24,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   @override
   void initState() {
     super.initState();
-    _updateProbability();
+    _updateWinningTokenSet();
   }
 
   @override
@@ -36,8 +36,26 @@ class _CalculatorPageState extends State<CalculatorPage> {
           children: [
             Row(
               children: [
-                IconButton(onPressed: () => {}, icon: AppIcons.plus),
-                IconButton(onPressed: () => {}, icon: AppIcons.sign)
+                IconButton(
+                    onPressed: () => {
+                          setState(() {
+                            nonNegativeAllowed = !nonNegativeAllowed;
+                            _updateNonNegativeTokens();
+                            _updateProbability();
+                          })
+                        },
+                    icon: nonNegativeAllowed
+                        ? AppIcons.plus
+                        : AppIcons.plusCrossed),
+                IconButton(
+                    onPressed: () => {
+                          setState(() {
+                            signsAllowed = !signsAllowed;
+                            _updateSignTokens();
+                            _updateProbability();
+                          })
+                        },
+                    icon: signsAllowed ? AppIcons.sign : AppIcons.signCrossed)
               ],
             ),
             IconButton(onPressed: () => {}, icon: AppIcons.chaosBag)
@@ -61,7 +79,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                 NumberSelector(
                   onNumberChanged: (num) {
                     skill = num;
-                    _updateWinningTokenSetFromSkill();
+                    _updateWinningTokenSet();
                   },
                   startingNumber: skill,
                 ),
@@ -111,26 +129,38 @@ class _CalculatorPageState extends State<CalculatorPage> {
     int tokenCount = ChaosBag.tokens.length;
     setState(() {
       this.totalProbability = winningTokens.length / tokenCount * 100;
-      this.winningTokenSet = winningTokens.toSet();
     });
   }
 
-  void _updateWinningTokenSetFromSkill() {
-    List<Token> winningTokens = [];
-    List<NumberToken> winningNumberTokens =
-        ChaosBag.numbers.where((token) => token.value + skill >= 0).toList();
-    if (nonNegativeAllowed) {
-      winningTokens.addAll(ChaosBag.signs
-          .where((token) => token.name == SignType.elderSign.name));
+  void _updateNonNegativeTokens() {
+    if (!nonNegativeAllowed) {
+      winningTokenSet.removeWhere((token) =>
+          (token is NumberToken && token.value >= 0) ||
+          token.name == SignType.elderSign.name);
     } else {
-      winningNumberTokens.removeWhere((token) => token.value >= 0);
+      winningTokenSet
+          .addAll(ChaosBag.numbers.where((token) => token.value + skill >= 0));
+      winningTokenSet.add(ChaosBag.signs
+          .where((token) => token.name == SignType.elderSign.name)
+          .first);
     }
-    winningTokens.addAll(winningNumberTokens);
-    if (signsAllowed) {
-      winningTokens
-          .addAll(ChaosBag.signs.where((token) => !token.special).toList());
+  }
+
+  void _updateSignTokens() {
+    if (!signsAllowed) {
+      winningTokenSet
+          .removeWhere((token) => (token is SignToken && !token.special));
+    } else {
+      winningTokenSet.addAll(ChaosBag.signs.where((token) => !token.special));
     }
-    winningTokenSet = winningTokens.toSet();
+  }
+
+  void _updateWinningTokenSet() {
+    winningTokenSet = Set();
+    _updateNonNegativeTokens();
+    _updateSignTokens();
+    winningTokenSet.addAll(ChaosBag.numbers
+        .where((token) => token.value < 0 && token.value + skill >= 0));
 
     _updateProbability();
   }

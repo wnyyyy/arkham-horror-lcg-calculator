@@ -19,9 +19,13 @@ class TokenGrid extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         double tokenSize = constraints.maxWidth * 0.175;
         return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: _rowList(tokenSize),
-        );
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ..._rowList(tokenSize),
+              SizedBox(
+                height: 6,
+              )
+            ]);
       },
     );
   }

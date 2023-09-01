@@ -4,35 +4,32 @@ import 'package:arkham_horror_lcg_calculator/presentation/components/bag_selecto
 import 'package:flutter/material.dart';
 
 class BagSelector extends StatefulWidget {
-  const BagSelector({Key? key}) : super(key: key);
+  final Map<Token, int> tokenCounts;
+  final Function(int) updateCount;
+  const BagSelector({
+    Key? key,
+    required this.tokenCounts,
+    required this.updateCount,
+  }) : super(key: key);
 
   @override
   State<BagSelector> createState() => _BagSelectorState();
 }
 
 class _BagSelectorState extends State<BagSelector> {
-  late Map<Token, int> tokenCounts;
-
-  @override
-  void initState() {
-    super.initState();
-    tokenCounts = {};
-    for (Token token in ChaosBag.allowedTokens) {
-      tokenCounts[token] = ChaosBag.tokens.where((t) => t == token).length;
-    }
-  }
+  int currCount = ChaosBag.tokens.length;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Scrollbar(
         child: ListView.builder(
-          itemCount: tokenCounts.length,
+          itemCount: widget.tokenCounts.length,
           itemBuilder: (context, index) {
-            Token token = tokenCounts.keys.elementAt(index);
+            Token token = widget.tokenCounts.keys.elementAt(index);
             return _buildRow(
               token,
-              tokenCounts[token]!,
+              widget.tokenCounts[token]!,
             );
           },
         ),
@@ -46,7 +43,13 @@ class _BagSelectorState extends State<BagSelector> {
       initialCount: count,
       onCountChanged: (value) {
         setState(() {
-          tokenCounts[token] = value;
+          if (widget.tokenCounts[token]! > value) {
+            currCount--;
+          } else {
+            currCount++;
+          }
+          widget.updateCount(currCount);
+          widget.tokenCounts[token] = value;
         });
       },
     );

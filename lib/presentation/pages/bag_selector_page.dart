@@ -1,4 +1,5 @@
 import 'package:arkham_horror_lcg_calculator/domain/chaos_bag.dart';
+import 'package:arkham_horror_lcg_calculator/domain/token.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_icons.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/assets/app_ui.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/components/bag_selector.dart';
@@ -13,7 +14,18 @@ class BagSelectorPage extends StatefulWidget {
 }
 
 class _BagSelectorPageState extends State<BagSelectorPage> {
-  int totalProbability = 0;
+  late Map<Token, int> tokenCounts;
+  late int currCount;
+
+  @override
+  void initState() {
+    super.initState();
+    tokenCounts = {};
+    for (Token token in ChaosBag.allowedTokens) {
+      tokenCounts[token] = ChaosBag.tokens.where((t) => t == token).length;
+    }
+    currCount = ChaosBag.tokens.length;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +42,7 @@ class _BagSelectorPageState extends State<BagSelectorPage> {
         ),
         actions: [
           IconButton(
-              onPressed: () => {Navigator.of(context).pop()},
+              onPressed: () => {_updateTokens(), Navigator.of(context).pop()},
               icon: Icon(
                 Icons.check,
                 color: AppColors.secondaryColor,
@@ -57,7 +69,7 @@ class _BagSelectorPageState extends State<BagSelectorPage> {
                   Container(
                     padding: EdgeInsets.only(bottom: 16),
                     child: Text(
-                      ChaosBag.tokens.length.toString(),
+                      currCount.toString(),
                       style: TextStyle(fontSize: 96),
                     ),
                   ),
@@ -76,9 +88,26 @@ class _BagSelectorPageState extends State<BagSelectorPage> {
                           width: 2.0, color: AppColors.secondaryColor),
                     ),
                   ),
-                  child: BagSelector())),
+                  child: BagSelector(
+                    tokenCounts: tokenCounts,
+                    updateCount: (count) {
+                      setState(() {
+                        currCount = count;
+                      });
+                    },
+                  ))),
         ],
       ),
     );
+  }
+
+  void _updateTokens() {
+    List<Token> tokens = [];
+    for (Token token in tokenCounts.keys) {
+      for (int i = 0; i < tokenCounts[token]!; i++) {
+        tokens.add(token);
+      }
+    }
+    ChaosBag.tokens = tokens;
   }
 }

@@ -47,7 +47,7 @@ class _BagSelectorRowState extends State<BagSelectorRow> {
                         size: 64.0,
                         onPressed: () => {
                               setState(() {
-                                count--;
+                                count = (count - 1).clamp(0, 99);
                                 widget.onCountChanged(count);
                               })
                             }),
@@ -74,10 +74,10 @@ class _BagSelectorRowState extends State<BagSelectorRow> {
               children: [
                 Expanded(
                   child: Container(
-                    alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(left: 42),
+                    alignment: Alignment.topCenter,
                     child: Text(
                       count.toString(),
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 76),
                     ),
                   ),
@@ -89,7 +89,7 @@ class _BagSelectorRowState extends State<BagSelectorRow> {
                         size: 64.0,
                         onPressed: () => {
                               setState(() {
-                                count++;
+                                count = (count + 1).clamp(0, 99);
                                 widget.onCountChanged(count);
                               })
                             }),

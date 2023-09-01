@@ -50,7 +50,8 @@ class _NumberSelectorState extends State<NumberSelector> {
                   padding: EdgeInsets.only(bottom: 48),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    '$selectedNumber',
+                    '${selectedNumber.abs()}',
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 96.0),
                   ),
                 ),
@@ -71,6 +72,10 @@ class _NumberSelectorState extends State<NumberSelector> {
                       onPressed: () => {
                             setState(() {
                               selectedNumber++;
+                              selectedNumber = selectedNumber.clamp(-99, 99);
+                              if (selectedNumber >= 0) {
+                                isPositive = true;
+                              }
                               widget.onNumberChanged(_getNumber());
                             })
                           }),
@@ -80,6 +85,10 @@ class _NumberSelectorState extends State<NumberSelector> {
                       onPressed: () => {
                             setState(() {
                               selectedNumber += 3;
+                              selectedNumber = selectedNumber.clamp(-99, 99);
+                              if (selectedNumber >= 0) {
+                                isPositive = true;
+                              }
                               widget.onNumberChanged(_getNumber());
                             })
                           },
@@ -94,8 +103,11 @@ class _NumberSelectorState extends State<NumberSelector> {
                       size: 64.0,
                       onPressed: () => {
                             setState(() {
-                              selectedNumber =
-                                  selectedNumber > 0 ? selectedNumber - 1 : 0;
+                              selectedNumber -= 1;
+                              selectedNumber = selectedNumber.clamp(-99, 99);
+                              if (selectedNumber < 0) {
+                                isPositive = false;
+                              }
                               widget.onNumberChanged(_getNumber());
                             })
                           }),
@@ -104,8 +116,11 @@ class _NumberSelectorState extends State<NumberSelector> {
                       size: 64.0,
                       onPressed: () => {
                             setState(() {
-                              selectedNumber =
-                                  selectedNumber > 2 ? selectedNumber - 3 : 0;
+                              selectedNumber -= 3;
+                              selectedNumber = selectedNumber.clamp(-99, 99);
+                              if (selectedNumber < 0) {
+                                isPositive = false;
+                              }
                               widget.onNumberChanged(_getNumber());
                             })
                           },
@@ -120,6 +135,6 @@ class _NumberSelectorState extends State<NumberSelector> {
   }
 
   int _getNumber() {
-    return selectedNumber * (isPositive ? 1 : -1);
+    return selectedNumber.abs() * (isPositive ? 1 : -1);
   }
 }

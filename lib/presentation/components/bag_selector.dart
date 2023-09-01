@@ -45,7 +45,7 @@ class _BagSelectorState extends State<BagSelector> {
         setState(() {
           if (widget.tokenCounts[token]! > value) {
             currCount--;
-          } else {
+          } else if (widget.tokenCounts[token]! < value) {
             currCount++;
           }
           widget.updateCount(currCount);

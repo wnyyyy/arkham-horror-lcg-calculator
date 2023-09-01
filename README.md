@@ -5,6 +5,10 @@ Arkham Horror LCG (Living Card Game) is a cooperative card game set in the Lovec
 - Change bag composition: Users can select desired tokens that compose the Chaos Bag. The data is persisted among sessions.
 - Calculate Probability: Based on the selected tokens and their quantity in the Chaos Bag, the app displays the probability of drawing them.
 - Automatic token selection: The system can pre-select the winning tokens based on the informed input and the toggles, which allows for pre-selecting signs (tokens with context dependant value) and/or forbidding non-negative tokens.
+<p align="center">
+  <img src="https://github.com/wnyyyy/arkham-horror-lcg-calculator/blob/main/demo.gif" width="180" />
+</p>
+
 
 ## To do
 - Add probability calculation when pulling multiple tokens

@@ -62,7 +62,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => BagSelectorPage()),
-                    )
+                    ).then((value) {
+                      _updateProbability();
+                    })
                   },
               icon: AppIcons.chaosBag)
         ],

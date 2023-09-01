@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.wnyyyy.arkham_horror_lcg_calculator"
+    namespace = "com.wnyyyy.arkham_horror_lcg_calculator"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 

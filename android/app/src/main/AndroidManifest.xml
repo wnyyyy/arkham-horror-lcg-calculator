@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="arkham_horror_lcg_calculator"
+        android:label="AH:LCG Calculator"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/arkham_horror_lcg_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

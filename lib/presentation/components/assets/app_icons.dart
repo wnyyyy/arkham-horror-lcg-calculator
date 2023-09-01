@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:arkham_horror_lcg_calculator/presentation/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,8 +20,4 @@ class AppIcons {
       SvgPicture.asset('assets/icons/arrow.svg', colorFilter: _colorFilter);
   static final arrowDouble = SvgPicture.asset('assets/icons/arrow_double.svg',
       colorFilter: _colorFilter);
-  static final x = Transform.rotate(
-      angle: pi * 0.25,
-      child:
-          SvgPicture.asset('assets/icons/plus.svg', colorFilter: _colorFilter));
 }

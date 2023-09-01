@@ -16,4 +16,10 @@ class AppUI {
           fit: BoxFit.fill,
         )),
       ));
+
+  static final divider_vertical = SvgPicture.asset(
+    'assets/ui/divider_vertical.svg',
+    colorFilter: _colorFilter,
+    fit: BoxFit.fill,
+  );
 }

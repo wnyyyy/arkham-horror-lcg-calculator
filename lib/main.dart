@@ -5,6 +5,7 @@ import 'package:arkham_horror_lcg_calculator/domain/token.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/pages/calculator_page.dart';
 import 'package:arkham_horror_lcg_calculator/presentation/themes/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -43,6 +44,10 @@ class ArkhamHorrorCalculator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final repository = Provider.of<ChaosBagRepository>(context);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
     return MaterialApp(
       title: 'Arkham Horror Calculator',

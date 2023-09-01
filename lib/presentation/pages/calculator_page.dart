@@ -57,6 +57,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
         ),
         actions: [
           IconButton(
+              padding: EdgeInsets.only(right: 16),
               onPressed: () => {
                     Navigator.push(
                       context,
@@ -96,7 +97,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
           Expanded(
               child: Stack(children: [
             Transform.translate(
-              offset: Offset(0, 3.5),
+              offset: Offset(0, 7),
               child: Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(

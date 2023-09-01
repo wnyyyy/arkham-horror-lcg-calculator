@@ -51,6 +51,7 @@ class _BagSelectorPageState extends State<BagSelectorPage> {
         ),
         actions: [
           IconButton(
+              padding: EdgeInsets.only(right: 32),
               onPressed: () => {_updateTokens(), Navigator.of(context).pop()},
               icon: Icon(
                 Icons.check,
